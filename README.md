@@ -27,4 +27,4 @@ At the start of each section, some comments will be included to explicitly point
 * [Provisioning Pod Network Routes](docs/11-pod-network-routes.md)
 * [Deploying the DNS Cluster Add-on](docs/12-dns-addon.md)
 * [Smoke Test](docs/13-smoke-test.md)
-* [Bare-metal load balancer](bare-metal-load-balancer.md)
+* [Bare-metal load balancer](docs/bare-metal-load-balancer.md)
