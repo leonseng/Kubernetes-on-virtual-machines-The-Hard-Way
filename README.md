@@ -2,9 +2,9 @@
 # Kubernetes (on virtual machines) The Hard Way
 ## Introduction
 
-This tutorial goes through deploying a local Kubernetes clusters using virtual machines. It is heavily based on Kelsey Hightower's [Kubernetes The Hard Way](https://github.com/kelseyhightower/kubernetes-the-hard-way), which was designed for deploying a Kubernetes cluster on Google Kubernetes Engine.
+This is my attempt at deploying a local Kubernetes clusters using virtual machines. It is **heavily** based on Kelsey Hightower's [Kubernetes The Hard Way](https://github.com/kelseyhightower/kubernetes-the-hard-way), which was designed for deploying a Kubernetes cluster on Google Kubernetes Engine.
 
-At the start of each section, some comments will be included to explicitly point out any difference between this guide and the original.
+At the start of each section, some comments have been included to explicitly point out any difference between this guide and the original.
 
 ## Major differences
 * We will be deploying the Kubernetes nodes on local VMs instead of the cloud
