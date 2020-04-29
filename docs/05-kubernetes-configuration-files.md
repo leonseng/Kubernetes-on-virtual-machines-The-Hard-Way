@@ -21,7 +21,7 @@ Each kubeconfig requires a Kubernetes API Server to connect to. We will emulate 
 Retrieve the `kubernetes-the-hard-way` static IP address:
 
 ```
-KUBERNETES_PUBLIC_ADDRESS=$($(ip addr show eth0 | grep " inet " | awk '{split($2,a,"/"); print a[1]}'))
+KUBERNETES_PUBLIC_ADDRESS=$(ip addr show dev eth1 | grep "inet " | sed  -E 's/\s+inet ([^\/]+).+$/\1/')
 ```
 
 ### The kubelet Kubernetes Configuration File

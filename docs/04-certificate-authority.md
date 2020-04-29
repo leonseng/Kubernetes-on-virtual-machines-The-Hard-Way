@@ -3,6 +3,7 @@
 [Original link](https://github.com/kelseyhightower/kubernetes-the-hard-way/blob/master/docs/04-certificate-authority.md)
 
 * Removed bits on unused controllers and workers
+* Changed the way KUBERNETES_PUBLIC_ADDRESS is retrieved
 * Convert gcloud CLI SCP commands to local CLI commands
 ___
 
