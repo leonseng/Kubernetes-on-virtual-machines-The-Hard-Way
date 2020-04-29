@@ -5,7 +5,8 @@
 * Removed bits on unused controllers and workers
 * Removed `kube-proxy` as we will be replacing it with `kube-router`.
 * Removed `--podCIDR` flag in `kubelet-config.yaml` as required by `kube-router`
-* Removed `--resolvConf` flag in `kubelet-config.yaml` as `/run/systemd/resolve/resolv.conf` was being deleted everytime the worker node reboots. Defaults to using `/etc/resolv.conf` instead.
+* Modified `--resolvConf` value in `kubelet-config.yaml` to `""` as `/run/systemd/resolve/resolv.conf` was being deleted everytime the worker node reboots.
+* Added `--node-ip` flag in `kubelet.service`
 * Added `HTTP_PROXY` environment variable to `containerd` unit file
 ___
 
@@ -209,7 +210,7 @@ clusterDomain: "cluster.local"
 clusterDNS:
   - "10.32.0.10"
 podCIDR: "${POD_CIDR}"
-resolvConf: "/run/systemd/resolve/resolv.conf"
+resolvConf: ""
 runtimeRequestTimeout: "15m"
 tlsCertFile: "/var/lib/kubelet/${HOSTNAME}.pem"
 tlsPrivateKeyFile: "/var/lib/kubelet/${HOSTNAME}-key.pem"
@@ -221,6 +222,8 @@ EOF
 Create the `kubelet.service` systemd unit file:
 
 ```
+NODE_IP=$(ip addr show dev eth1 | grep "inet " | sed  -E 's/\s+inet ([^\/]+).+$/\1/')
+
 cat <<EOF | sudo tee /etc/systemd/system/kubelet.service
 [Unit]
 Description=Kubernetes Kubelet
@@ -237,6 +240,7 @@ ExecStart=/usr/local/bin/kubelet \\
   --kubeconfig=/var/lib/kubelet/kubeconfig \\
   --network-plugin=cni \\
   --register-node=true \\
+  --node_ip=${NODE_IP} \\
   --v=2
 Restart=on-failure
 RestartSec=5
