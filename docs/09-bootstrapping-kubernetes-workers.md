@@ -8,6 +8,7 @@
 * Modified `--resolvConf` value in `kubelet-config.yaml` to `""` as `/run/systemd/resolve/resolv.conf` was being deleted everytime the worker node reboots.
 * Added `--node-ip` flag in `kubelet.service`
 * Added `HTTP_PROXY` environment variable to `containerd` unit file
+* Removed `bridge` network configuration as that would be handled by Kube Router
 ___
 
 In this lab you will bootstrap two Kubernetes worker nodes. The following components will be installed on each node: [runc](https://github.com/opencontainers/runc), [container networking plugins](https://github.com/containernetworking/cni), and [containerd](https://github.com/containerd/containerd), and [kubelet](https://kubernetes.io/docs/admin/kubelet).
@@ -90,35 +91,6 @@ Install the worker binaries:
 ```
 
 ### Configure CNI Networking
-
-Retrieve the Pod CIDR range for the current compute instance:
-
-```
-POD_CIDR=$(curl -s -H "Metadata-Flavor: Google" \
-  http://metadata.google.internal/computeMetadata/v1/instance/attributes/pod-cidr)
-```
-
-Create the `bridge` network configuration file:
-
-```
-cat <<EOF | sudo tee /etc/cni/net.d/10-bridge.conf
-{
-    "cniVersion": "0.3.1",
-    "name": "bridge",
-    "type": "bridge",
-    "bridge": "cnio0",
-    "isGateway": true,
-    "ipMasq": true,
-    "ipam": {
-        "type": "host-local",
-        "ranges": [
-          [{"subnet": "${POD_CIDR}"}]
-        ],
-        "routes": [{"dst": "0.0.0.0/0"}]
-    }
-}
-EOF
-```
 
 Create the `loopback` network configuration file:
 
